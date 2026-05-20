@@ -3,214 +3,641 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black & Gold Premium UI</title>
-    
+    <title>Council Rule</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
-
     <style>
-        /* ==========================================
-           [ส่วนที่ 1] ตั้งค่าพื้นหลังและโครงสร้างหน้าจอหลัก
-           ========================================== */
+        * { box-sizing: border-box; }
         body {
-            margin: 0;
-            padding: 40px;
-            background-color: #0b0b0b; /* สีดำลึก */
-            color: #e0e0e0;            /* ตัวอักษรสีขาวนวล */
-            font-family: 'Prompt', sans-serif; /* เรียกใช้ฟอนต์ Prompt */
+            margin: 0; padding: 30px;
+            background-color: #0b0b0b;
+            color: #e0e0e0;
+            font-family: 'Prompt', sans-serif;
+            font-size: 14px;
         }
+        .wrapper { display: flex; max-width: 1300px; margin: 0 auto; gap: 24px; }
 
-        /* จัดหน้าจอให้ฝั่งซ้ายและขวาเรียงต่อกันสวยงาม */
-        .wrapper {
-            display: flex;
-            max-width: 1200px;
-            margin: 0 auto;
-            gap: 30px; /* ระยะห่างระหว่างกล่องซ้ายและขวา */
-        }
-
-        /* ==========================================
-           [ส่วนที่ 2] ตกแต่งฝั่งขวา - กล่องเนื้อหาและตาราง
-           ========================================== */
-        .content-box {
-            flex: 2; /* ให้กล่องฝั่งขวาขยายกว้างกว่าฝั่งขวา */
-            background-color: #121212; /* สีเทาเข้มมาก ให้กล่องลอยขึ้นมา */
-            border: 1px solid rgba(212, 175, 55, 0.1); /* ขอบสีทองจางๆ 10% */
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* เงาสีดำใต้กล่อง */
-        }
-
-        /* หัวข้อใหญ่ประจำหน้า */
-        .title {
-            text-align: center;
-            font-size: 24px;
-            color: #ffffff;
-            margin-top: 0;
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        /* เส้นใต้หัวข้อที่เป็นทองคำเรืองแสง */
-        .title::after {
-            content: '';
-            display: block;
-            width: 120px;
-            height: 3px;
-            background: linear-gradient(90deg, #aa7c11, #fbf5b7, #aa7c11); /* ไล่สีเฉดทอง */
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.6); /* แสงทองฟุ้งๆ */
-            margin: 10px auto 0 auto;
-        }
-
-        /* ตัวตาราง */
-        .custom-table {
-            border-radius: 8px;
-            overflow: hidden; /* ตัดขอบเนื้อหาที่ล้นให้โค้งมนตามกล่อง */
-        }
-
-        /* หัวตารางสีดำเงา */
-        .table-head {
-            background: linear-gradient(180deg, #222222 0%, #161616 100%);
-            border-bottom: 2px solid #d4af37; /* เส้นตัดสีทอง */
-            padding: 15px;
-            display: flex;
-            font-weight: 600;
-            color: #d4af37; /* ตัวหนังสือหัวตารางสีทอง */
-        }
-
-        /* แถวเนื้อหาของตาราง */
-        .table-row {
-            display: flex;
-            padding: 18px 15px;
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        /* สลับเฉดสีแถวตาราง (แถวคู่ให้ทึบขึ้นนิดนึงเพื่อให้อ่านง่าย) */
-        .table-row:nth-child(even) {
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        /* แบ่งความกว้างคอลัมน์ (ตัวเลข 10% / เนื้อหา 90%) */
-        .col-num, .id-number { width: 10%; }
-        .col-detail, .text-detail { width: 90%; }
-
-        /* เลขข้อสีทองสว่าง */
-        .id-number {
-            color: #fbf5b7;
-            font-weight: 600;
-            text-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
-        }
-
-        /* ข้อความหมายเหตุสีทองหม่นตัวเอียง */
-        .warning-text {
-            color: #bfa34b;
-            font-size: 13px;
-            font-style: italic;
-            margin-top: 6px;
-        }
-
-        /* ==========================================
-           [ส่วนที่ 3] ตกแต่งฝั่งขวา - แถบเมนู Sidebar (ข้อ 3.3)
-           ========================================== */
+        /* ===== SIDEBAR ===== */
         .sidebar {
-            flex: 1; /* ความกว้างแคบกว่าฝั่งซ้าย */
+            width: 230px; flex-shrink: 0;
             background-color: #121212;
             border-radius: 12px;
-            padding: 20px;
-            border-left: 4px solid #d4af37; /* แถบสีทองหนาด้านซ้าย */
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); /* แสงออร่าสีทองรอบกล่อง */
-            align-self: flex-start; /* ป้องกันไม่ให้กล่องยืดยาวตามฝั่งซ้าย */
+            padding: 16px;
+            border-left: 4px solid #d4af37;
+            box-shadow: 0 0 20px rgba(212,175,55,0.1);
+            align-self: flex-start;
+            position: sticky; top: 20px;
+        }
+        .menu-header {
+            padding: 8px 4px 12px;
+            font-weight: 600; font-size: 13px;
+            color: #d4af37;
+            border-bottom: 1px solid rgba(212,175,55,0.25);
+            margin-bottom: 10px;
+        }
+        .menu-group-label {
+            padding: 10px 8px 4px;
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .menu-item {
+            padding: 9px 12px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            color: #a0a0a0;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+        .menu-item.active {
+            background: rgba(212,175,55,0.15);
+            color: #fbf5b7;
+            border: 1px solid rgba(212,175,55,0.3);
+            font-weight: 600;
+        }
+        .menu-item:hover {
+            background-color: #d4af37;
+            color: #000;
+            font-weight: 600;
+            box-shadow: 0 0 8px rgba(212,175,55,0.4);
         }
 
-        /* หัวข้อด้านบนของเมนู */
-        .menu-header {
-            padding: 10px 5px;
+        /* ===== CONTENT ===== */
+        .content-box {
+            flex: 1;
+            background-color: #121212;
+            border: 1px solid rgba(212,175,55,0.1);
+            border-radius: 12px;
+            padding: 28px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Page title — left aligned */
+        .page-title {
+            font-size: 20px;
             font-weight: 600;
             color: #ffffff;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            margin-bottom: 15px;
+            margin: 0 0 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .page-title::after {
+            content: '';
+            display: block;
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, #d4af37 0%, rgba(212,175,55,0.1) 100%);
+            margin-left: 10px;
+            border-radius: 2px;
+        }
+        .page-subtitle {
+            font-size: 13px;
+            color: #bfa34b;
+            margin: 0 0 20px 0;
         }
 
-        /* ปุ่มเมนูทั่วไป */
-        .menu-item {
-            padding: 12px 15px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            color: #a0a0a0;
-            transition: all 0.2s ease; /* หน่วงเวลาตอนเมาส์ชี้ให้นุ่มนวล */
-        }
-
-        /* ปุ่มเมนูที่กำลังเลือกอยู่ (Active) */
-        .menu-item.active {
-            background: rgba(212, 175, 55, 0.15); /* พื้นหลังทองจางๆ */
-            color: #fbf5b7; /* ตัวหนังสือทองสว่าง */
-            border: 1px solid rgba(212, 175, 55, 0.3);
+        /* Section header */
+        .section-header {
+            font-size: 15px;
             font-weight: 600;
+            color: #d4af37;
+            margin: 24px 0 10px 0;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(212,175,55,0.2);
         }
 
-        /* เอฟเฟกต์เวลาเอาเมาส์ไปชี้ที่ปุ่มเมนู */
-        .menu-item:hover {
-            background-color: #d4af37; /* เปลี่ยนพื้นหลังเป็นทองทึบ */
-            color: #000000;            /* เปลี่ยนตัวหนังสือเป็นสีดำเพื่อตัดกัน */
-            cursor: pointer;           /* เปลี่ยนเมาส์เป็นรูปมือ */
+        /* Table */
+        .custom-table { border-radius: 8px; overflow: hidden; margin-bottom: 6px; }
+        .table-head {
+            background: linear-gradient(180deg,#222 0%,#161616 100%);
+            border-bottom: 2px solid #d4af37;
+            padding: 12px 14px;
+            display: flex;
             font-weight: 600;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4); /* เพิ่มแสงเรืองรอบปุ่ม */
+            font-size: 13px;
+            color: #d4af37;
         }
+        .table-row {
+            display: flex;
+            padding: 13px 14px;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .table-row:nth-child(even) { background: rgba(255,255,255,0.04); }
+        .col-num { width: 36px; flex-shrink: 0; font-size: 13px; color: #d4af37; }
+        .col-detail { flex: 1; font-size: 13px; }
+        .id-number {
+            width: 36px; flex-shrink: 0;
+            color: #fbf5b7; font-weight: 600;
+            text-shadow: 0 0 5px rgba(212,175,55,0.4);
+            font-size: 13px;
+        }
+        .text-detail { flex: 1; line-height: 1.75; font-size: 13px; }
+        .warning-text {
+            color: #bfa34b; font-size: 12px;
+            font-style: italic; margin-top: 5px; line-height: 1.6;
+        }
+        .fine-text {
+            color: #d4af37; font-size: 12px;
+            font-weight: 600; margin-top: 5px;
+        }
+        .penalty-text {
+            color: #c0a050; font-size: 12px;
+            margin-top: 5px; line-height: 1.7;
+        }
+
+        /* Page visibility */
+        .page { display: none; }
+        .page.active { display: block; }
     </style>
 </head>
 <body>
+<div class="wrapper">
 
-    <div class="wrapper">
-        
-        <main class="content-box">
-            <h2 class="title">⭐Council Rule⭐</h2>
-            
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="menu-header">🏛️ Council Rule</div>
+
+        <div class="menu-item active" onclick="showPage('council-rule', this)">📋 Council Rule</div>
+        <div class="menu-item" onclick="showPage('activity-rule', this)">🏃 Activity Rule</div>
+
+        <div class="menu-group-label">GANG</div>
+        <div class="menu-item" onclick="showPage('gang-rule', this)">⚔️ กฎแก๊ง</div>
+        <div class="menu-item" onclick="showPage('gang-tx', this)">💰 ธุรกรรมแก๊ง</div>
+
+        <div class="menu-group-label">FAMILY</div>
+        <div class="menu-item" onclick="showPage('family-rule', this)">👨‍👩‍👧 กฎครอบครัว</div>
+        <div class="menu-item" onclick="showPage('family-tx', this)">💳 ธุรกรรมครอบครัว</div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="content-box">
+
+        <!-- ============================================================
+             PAGE 1 — COUNCIL RULE
+             ============================================================ -->
+        <div class="page active" id="page-council-rule">
+            <h2 class="page-title">📋 Council Rule</h2>
+            <p class="page-subtitle">🏤 เวลาทำการของหน่วยงานสภา 18:00 – 00:00 🏤</p>
+
             <div class="custom-table">
-                <div class="table-head">
-                    <div class="col-num">ข้อ</div>
-                    <div class="col-detail">กฎพืนฐาน</div>
-                </div>
-                
-                <div class="table-row">
-                    <div class="id-number">1</div>
-                    <div class="text-detail">1. การตัดสินของเจ้าหน้าที่สภา ถือเป็นที่สิ้นสุด
-<br> - หมายเหตุ : แม้ว่าจะเป็นความผิดที่อยู่ในกฎหรือนอกกฎ แต่ส่งผลต่อผู้อื่น สภามีสิทธิ์ตัดสินใจหรือ ใช้ช่องโหว่กฎสภาสามารถตัดสิน หรือ ตัดสินใจได้ทันที
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
 
-</div>
-                </div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">
+                    การตัดสินของเจ้าหน้าที่สภา ถือเป็นที่สิ้นสุด
+                    <div class="warning-text">* แม้ว่าจะเป็นความผิดที่อยู่ในกฎหรือนอกกฎ แต่ส่งผลต่อผู้อื่น สภามีสิทธิ์ตัดสินใจหรือใช้ช่องโหว่กฎ สภาสามารถตัดสินหรือตัดสินใจได้ทันที</div>
+                    <div class="fine-text">💷 ห้ามมีพันธมิตรแก๊ง/ครอบครัว โดยเด็ดขาด [ขึ้นอยู่กับดุลพินิจของสภา] — ค่าปรับสูงสุด 10,000,000 $ ต่อกลุ่ม</div>
+                </div></div>
 
-                <div class="table-row">
-                    <div class="id-number">2</div>
-                    <div class="text-detail">2. ห้ามมีพันธมิตรแก๊ง / ครอบครัว โดยเด็ดขาด [ขึ้นอยู่กับดุลพินิจของสภา]
-                       <br>  💷 ค่าปรับสูงสุด  10,000,000 $ ต่อกลุ่ม
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">เจ้าหน้าที่สภามีหน้าที่ไกล่เกลี่ย เจรจา หรือหาจุดลงตัวสำหรับแก๊ง</div></div>
 
-</div>
-                </div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">เจ้าหน้าที่สภาไม่ขึ้นตรงกับหน่วยงานใดๆทั้งสิ้น หากมีเหตุการณ์ที่เกิดขึ้นบริเวณรับผิดชอบสภา จะใช้กฎและค่าปรับของสภาเท่านั้น</div></div>
 
-                <div class="table-row">
-                    <div class="id-number">2</div>
-                    <div class="text-detail">
-                        ก่อนทำการขอตรวจค้นตัวต้องทำการขออนุญาตก่อนทุกครั้ง
-                        <div class="warning-text">*หากไม่ยินยอมหรือขัดขืน เจ้าหน้าที่สามารถควบคุมตัวได้ทันที</div>
-                    </div>
-                </div>
-                
-                <div class="table-row">
-                    <div class="id-number">3</div>
-                    <div class="text-detail">สายตาตำรวจถือว่าเป็นกลาง และเป็นที่สิ้นสุดในการตัดสินใจหน้างาน</div>
-                </div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">
+                    ห้ามดูหมิ่น หรือใช้คำพูดไม่เหมาะสมกับเจ้าหน้าที่สภา รวมไปถึงห้ามโกหกเจ้าหน้าที่สภา จะนับเป็นการดูถูกเจ้าหน้าที่สภา
+                    <div class="fine-text">💷 ค่าปรับสูงสุด 1,000,000 $ ต่อคน/ครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">
+                    เมื่ออยู่ต่อหน้าสภาจะต้องวางตัวให้เหมาะสม (ฟังคำสั่งสภา)
+                    <div class="fine-text">💷 ค่าปรับสูงสุด 1,000,000 $ – 3,000,000 $ ต่อคน/ครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">
+                    ห้ามทำร้ายร่างกาย ปล้น หรือขโมยรถหน่วยงานสภา หากเกิดกรณีนี้เจ้าหน้าที่สภาสามารถใช้อาวุธปกป้องตนเองได้ทันที
+                    <div class="penalty-text">บทลงโทษ :<br>&nbsp;&nbsp;ครั้งที่ 1 ปรับ 1,000,000 $/คน + กุมขัง 12 ชม.<br>&nbsp;&nbsp;ครั้งที่ 2 ปรับเพิ่มอีก 3,000,000 $ + งดทำธุรกรรมสภา (ทั้งแก๊ง)<br>&nbsp;&nbsp;ครั้งที่ 3 ปรับเพิ่มอีก 5,000,000 $ + คว่ำบาตร</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">7</div><div class="text-detail">
+                    ห้ามแอบอ้างว่าเป็นเจ้าหน้าที่สภา หรือแอบอ้างใช้คำพูดของสภา
+                    <div class="fine-text">💷 ค่าปรับ 5,000,000 $ ต่อคน/ครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">8</div><div class="text-detail">
+                    ห้ามเหินรถ หรือหาทางใช้ช่องโหว่ หรือบัค เข้ามาในพื้นที่บริเวณสภาเด็ดขาด
+                    <div class="fine-text">💷 ค่าปรับ 300,000 $ ต่อครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">9</div><div class="text-detail">
+                    ห้ามประชาชนใส่ชุดแก๊ง/ครอบครัว หรือห้ามใส่ชุดแก๊งผู้อื่นที่ไม่ใช่แก๊งตนเอง (หากพบเห็นสามารถส่งให้สภาดำเนินการได้ทันที)
+                    <div class="fine-text">💷 ค่าปรับ 2,000,000 $ ต่อคน</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">10</div><div class="text-detail">
+                    ห้ามประชาชน/แก๊ง ฝ่าฝืนต่อคำสั่งสภาโดยเด็ดขาด ให้รวมไปถึงการฝ่าฝืนประกาศจากสภาในทุกรูปแบบ
+                    <div class="fine-text">💷 ค่าปรับ 1,000,000 $ ต่อครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">11</div><div class="text-detail">
+                    ห้ามประชาชน/แก๊ง/ครอบครัว ควักอาวุธหรือทำร้ายร่างกาย รวมไปถึงการบัพ แซะ ด่าทอ ล้อหลอก กับบุคคลอื่นในพื้นที่บริเวณสภาเด็ดขาด
+                    <div class="warning-text">* ถ้าหากพบว่าแก๊งหรือครอบครัวที่มีสตอรี่ทุกรูปแบบหนีเข้าบริเวณสภา จะทำการปรับตามกฎและขึ้นอยู่กับดุลพินิจสภา</div>
+                    <div class="fine-text">💷 ค่าปรับ 1,000,000 $ ต่อคน/ครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">12</div><div class="text-detail">
+                    ห้ามแก๊ง/ครอบครัว หรือประชาชน ฝ่าฝืนวงเคอร์ฟิวสภาเด็ดขาด
+                    <div class="fine-text">💷 ค่าปรับ 1,000,000 $ ต่อครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">13</div><div class="text-detail">
+                    สภาจะปิดทำการ งดรับธุรกรรมทุกรูปแบบ รวมถึงไม่รับคุยสตอรี่ทุกกรณี ในทุกวันพฤหัสบดีของแต่ละสัปดาห์ ยกเว้นขายบัตรเช่ารถ/เทรดรถ
+                    <div class="warning-text">* สภาจะยังขายบัตรเช่ารถ/เทรดรถปกติ หากมีสภาเข้าเวรอยู่หน้าสภา โดยเรื่องสตอรี่จะไม่รับทุกรูปแบบ</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">14</div><div class="text-detail">
+                    ห้ามแก๊งหรือครอบครัวใดทำการมั่วสตอรี่ (ขึ้นอยู่กับดุลพินิจสภา)
+                    <div class="fine-text">💷 ค่าปรับสูงสุด 2,000,000 $ ต่อคน/ครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">15</div><div class="text-detail">
+                    หากมีประกาศเรียกแก๊งหรือครอบครัว หรือจากนิตยสารประกาศเรียกตัวสภา ห้ามแก๊งเพิกเฉยต่อประกาศสภา 30 นาที
+                    <div class="penalty-text">บทลงโทษ :<br>&nbsp;&nbsp;ครั้งที่ 1 จะมีการตักเตือน<br>&nbsp;&nbsp;ครั้งที่ 2 ปรับ 1,000,000 $<br>&nbsp;&nbsp;ครั้งที่ 3 ปรับเพิ่มอีก 3,000,000 $</div>
+                    <div class="warning-text">* หากครบ 3 รอบแล้ว จะงดเข้ากิจกรรมภายใต้สภาจนกว่าจะมีการมาติดต่อ</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">16</div><div class="text-detail">การมาติดต่อสภาจำเป็นจะต้องใส่ชุดแก๊ง/ครอบครัว เพื่อแสดงบทบาทของตนเอง หากไม่มีการแสดงตนให้ชัดเจน สภาจะไม่สามารถดำเนินการใดๆให้ได้</div></div>
             </div>
-        </main>
 
-        <aside class="sidebar">
-            <div class="menu-header">🏆 หมวดหลัก: กฎองค์กร</div>
-            <div class="menu-item active">🚨 การปฏิบัติงานทั่วไป</div>
-            <div class="menu-item">⚔️ การใช้อาวุธและกำลัง</div>
-            <div class="menu-item">💰 หมวดหลัก: อัตราค่าปรับ</div>
-        </aside>
+            <div class="section-header">⚠️ Excommunicate (พักสถานะ)</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
 
-    </div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">
+                    พักสถานะ คือ สถานะที่แก๊งจะได้รับก็ต่อเมื่อทำผิดกฎร้ายแรงของสภา จะถูกห้ามใช้สิทธิ์ของแก๊งทุกอย่าง รวมถึงบริการของสภา และกิจกรรมภายใต้สภารวมถึงสตอรี่ทุกประเภท
+                    <div class="warning-text">หมายเหตุ : ระยะเวลาในการ Boycott ตั้งแต่ 1–7 วัน หากไม่ให้ความร่วมมือกับหน่วยงานสภา จะมีโทษตั้งแต่ 1–4 วัน (กรณีรุนแรง ทำร้ายหรือด่าทอหน่วยงานสภา 4 วัน – 7 วัน จนกว่าจะส่ง Leader/Sub-Leader มารับโทษหรือพูดคุยกับสภา)</div>
+                </div></div>
 
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">หากถูกพักสถานะ แก๊งจะต้องติดต่อสภาภายใน 7 วันหลังจากการถูกพักสถานะ หากไม่มาติดต่อจะมีมติสั่งยุบจากสภาทันที</div></div>
+
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">
+                    กิจกรรมภายใต้สภาที่มีผลกับ BOYCOTT :
+                    <div class="warning-text">Airdrop, งัดร้าน, ธนาคารแก๊ง, MEGA BANK, งัดบ้านแก๊ง, TEAM FIGHT DEATHMATCH, War land Gang</div>
+                </div></div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PAGE 2 — ACTIVITY RULE
+             ============================================================ -->
+        <div class="page" id="page-activity-rule">
+            <h2 class="page-title">🏃 Activity Rule</h2>
+            <p class="page-subtitle">กฎการเล่นกิจกรรมภายใต้สภา</p>
+
+            <div class="section-header">🎁 กฎการเล่น Airdrop แก๊ง/ครอบครัว</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">
+                    สมาชิกทุกคนต้องใส่ชุดที่มีสัญลักษณ์ของแก๊งตัวเองอย่างชัดเจน สามารถใส่เกราะในการเล่น
+                    <div class="warning-text">* แก๊ง ต้องใส่ชุดแก๊งที่มีสัญลักษณ์ชัดเจน ห้ามใส่อุปกรณ์เสริมที่บดบังโลโก้หรือการเล่นของแก๊งอื่นเด็ดขาด (แฟชั่นส่วนอื่นสามารถใส่ได้ตามปกติ)</div>
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $ ต่อคน/ครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">
+                    ห้ามพันธมิตร หรือช่วยการเล่นกิจกรรม
+                    <div class="fine-text">💷 ค่าปรับ 3,000,000 $ ต่อกลุ่ม</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">
+                    ห้ามกด Emote เด็ดขาด ยกเว้น Emote หน้าสามารถใช้ได้ตามปกติ และห้ามใส่สิ่งที่เพิ่มความสูงของตัวละครตนเอง
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">
+                    ห้ามกักศพ หรืออุ้มศพฝ่ายตรงข้ามโดยเด็ดขาด สามารถอุ้มศพฝ่ายตัวเองได้เท่านั้น
+                    <div class="warning-text">* หากเผลออุ้มศพจะต้องปล่อยทันทีภายใน 3 วิ หากเกินจะนับเป็นการผิดกฎทันที หรือถ้าสภามองว่าเป็นการจงใจจะผิดกฎทันที</div>
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">
+                    ห้ามบัพหรือล้อหลอก หรือพฤติกรรมที่สภาเห็นว่าไม่ควรทำ อนุญาตให้คลอไฟต์ได้อย่างเดียว (แก๊งที่โดนกระทำจะต้องไม่มีบัพสวนทั้งนั้น)
+                    <div class="warning-text">* สามารถซื้อเรื่องจากกิจกรรมแอร์ดรอปได้ ถ้าหากมีการกระทำที่โต้ตอบหรือการสวนกลับ รวมไปถึงการใช้คำพูดและกิริยาด้วย</div>
+                    <div class="fine-text">💷 ค่าปรับ 1,000,000 $</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">
+                    ห้ามเก็บ Airdrop ในขณะที่กำลังเล่นอยู่โดยเด็ดขาด จะต้องรอให้เหลือแก๊งสุดท้ายเท่านั้น
+                    <div class="fine-text">💷 ค่าปรับ 2,000,000 $ + คืนของที่ได้จากกิจกรรมทั้งหมด</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">7</div><div class="text-detail">
+                    ห้ามแก๊งที่อยู่ในช่วงกำลังมีสตอรี่เข้าร่วมกิจกรรมโดยเด็ดขาด
+                    <div class="fine-text">💷 ค่าปรับ 1,000,000 $ ต่อกลุ่ม</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">8</div><div class="text-detail">
+                    หากมีการกระทำผิด สามารถใช้ Overlay หรือ Gopro ในการเป็นหลักฐานได้
+                    <div class="warning-text">* ใน Overlay ส่วนที่จะใช้เป็นหลักฐาน ผู้อัดสามารถส่งวีดิโอตอนสลบได้ และมีความยาวมากกว่า 1 นาที ก่อนที่จะเกิดเหตุที่จะต้องใช้เป็นหลักฐาน</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">9</div><div class="text-detail">
+                    ห้ามขึ้นหรือชุปบนกล่อง Airdrop
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $ ต่อคน/ครั้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">10</div><div class="text-detail">การเข้าร่วมแอร์ดรอป 1 Gang/Family มีสิทธิ์เข้าแอร์ดรอปได้เพียง 1 ลูกเท่านั้น</div></div>
+
+                <div class="table-row"><div class="id-number">11</div><div class="text-detail">ห้ามมีการปล้นผู้เข้าร่วมกิจกรรมทุกกรณี [บังคับใช้ตอนปล้นเข้า]</div></div>
+
+                <div class="table-row"><div class="id-number">12</div><div class="text-detail">แก๊งสามารถใช้ปืนในการเล่น Airdrop แก๊งได้ [บังคับใช้ตอนปืนเข้า]</div></div>
+            </div>
+
+            <div class="section-header">🏪 กฎการเล่น งัดร้าน แก๊ง/ครอบครัว</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">—</div><div class="text-detail">
+                    <div class="warning-text">รายละเอียดกฎงัดร้านจะประกาศเพิ่มเติมภายหลัง</div>
+                </div></div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PAGE 3 — กฎแก๊ง
+             ============================================================ -->
+        <div class="page" id="page-gang-rule">
+            <h2 class="page-title">⚔️ กฎแก๊ง</h2>
+            <p class="page-subtitle">กฎพื้นฐาน สิทธิ์ และ Protect ของแก๊ง</p>
+
+            <div class="section-header">📌 กฎพื้นฐานแก๊ง</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">
+                    ห้ามแก๊งจับมือ หรือเป็นพันธมิตรกัน รวมไปถึงการเป็นท่อน้ำเลี้ยงซึ่งกันและกัน โดยเด็ดขาด
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $ / คน</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">
+                    ห้ามแก๊งซื้อขายหรือแลกเปลี่ยน สินค้า สวัสดิการจากสภา หรือให้โดยเหตุใดๆก็ตาม โดยอิงจากกฎในหมวดหมู่สินค้าและสวัสดิการจากสภา
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $ / คน</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">
+                    ห้ามแก๊งทำร้าย หรือใช้คำพูดที่ส่อไปทางเหยียดหยาม บัพ หรือ Toxic หรือโดยไร้เหตุผล ใส่ประชาชน
+                    <div class="warning-text">กระทำครั้งที่ 1 เตือน / ครั้งที่ 2 ปรับ / ครั้งที่ 3 จะถูกพักสถานะแก๊งชั่วคราว<br>การตัดสินขึ้นอยู่กับพยานหลักฐาน ใช้แค่ F12 หรือพยานที่อยู่ในที่เกิดเหตุเท่านั้น (Gopro/Overlay ไม่สามารถใช้เป็นหลักฐานได้)</div>
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $ / คน</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">
+                    แก๊งจะสามารถส่งหลักฐานการแจ้งผู้กระทำผิดกฎกิจกรรมภายใต้สภาได้ภายใน 24 ชั่วโมงเท่านั้น
+                    <div class="warning-text">บทลงโทษ : โมฆะการแจ้ง</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">
+                    ห้ามแก๊งนำบุคคลอื่นที่ไม่ได้อยู่ใน Slot แก๊ง ใส่ชุดแก๊งเพื่อร่วมกิจกรรม หรือสตอรี่ทุกอย่าง และไม่อนุญาตให้บุคคลที่จะเข้าแก๊งใส่สัญลักษณ์แก๊งก่อนทำการเข้าแก๊ง
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $ / คน</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">
+                    อนุญาตให้แก๊งภายใต้สภาสามารถใช้ EMP ได้เพียงการเล่นสตอรี่ผ่านสภาเท่านั้น ไม่อนุญาตให้ใช้ในกรณีอื่นทุกกรณี
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $ / คน</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">7</div><div class="text-detail">
+                    แก๊งที่มี PT แต่ไม่ใส่ปลอกแขนถือว่าไม่รักษาผลประโยชน์ของตัวเอง หากคู่กรณีมีการแทงทะลุ PT มา นับว่าคู่กรณีไม่ผิด และไม่ต้องเสียค่าทะลุ PT ให้อีกฝั่ง
+                    <div class="fine-text">💷 ค่าปรับ 500,000 $ / คน</div>
+                </div></div>
+            </div>
+
+            <div class="section-header">✅ สิทธิของแก๊ง</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">
+                    แก๊งมีสิทธิ์ในการซื้อ Painkiller ที่สภาเท่านั้น ผู้ที่ไม่ใช่แก๊งไม่มีสิทธิ์ถือหรือขายโดยเด็ดขาด
+                    <div class="fine-text">💷 ค่าปรับ 3,000,000 $</div>
+                </div></div>
+
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">
+                    หากพบเจอประชาชนหรือผู้ใดที่ใส่ชุดแก๊งของตนเอง สามารถทำได้ทุกวิธีที่จะนำจับและมาส่งสภาได้ทันที หากตักเตือนแล้วไม่ทำตามจะมีโทษปรับทันที
+                    <div class="warning-text">* ผู้นำจับต้องเล่นตาม Gameplay ที่อยู่ภายใต้กฎประเทศเท่านั้น หากทำเกินกว่าควรจะส่งพิจารณาตามกฎประเทศทันที</div>
+                    <div class="fine-text">💷 ค่าปรับ 1,000,000 $</div>
+                </div></div>
+            </div>
+
+            <div class="section-header">🛡️ Protect</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">Protect จากสภาจะให้สำหรับแก๊งขึ้นใหม่ 14 วันเท่านั้น โดยสถานะจะถูกเป็นแก๊งที่มี Protect ไม่สามารถซื้อเรื่อง หรือโดนซื้อเรื่องจากแก๊งอื่นได้ทันที</div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">ห้ามแก๊งอื่น ยั่วยุ ล้อหลอก พฤติกรรมที่ส่อไปทางซื้อเรื่อง ด้วยวาจา ท่าทาง หรือการทำร้ายร่างกายอีกฝ่ายที่มี Protect โดยเด็ดขาด</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">แก๊งขึ้นใหม่ จะมี Protect สี ที่คุ้มครองเรื่องการโดนไล่สี 7 วัน จะรวมอยู่ใน Protect ตามข้อ 1</div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">ห้ามแก๊งที่มี Protect จากสภา ยั่วยุ ล้อหลอก ทั้งพฤติกรรม วาจา ท่าทาง รวมไปถึงการทำร้ายร่างกายในกิจกรรมประเทศและกิจกรรมภายใต้สภา โดยเด็ดขาด</div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">แก๊งที่ต้องการปลดสถานะ Protect ของตนเอง จะไม่เสียค่าธรรมเนียม</div></div>
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">สถานะ Protect ไม่มีผลกับกิจกรรมภายใต้สภาทุกรูปแบบ หากต้องการมีสตอรี่ผ่านกิจกรรมภายใต้สภา แก๊งสามารถปลด Protect เพื่อมาเล่นสตอรี่ได้</div></div>
+                <div class="table-row"><div class="id-number">7</div><div class="text-detail">แก๊งที่มี Protect แต่ไม่ใส่ปลอกแขน ถือว่าไม่รักษาผลประโยชน์ของตัวเอง หากคู่กรณีมีการแทงทะลุ Protect มา นับว่าคู่กรณีไม่ผิด และไม่ต้องเสียค่าทะลุ Protect ให้อีกฝั่ง</div></div>
+                <div class="table-row"><div class="id-number">8</div><div class="text-detail">แก๊งที่มี Protect แต่ไม่ใส่ปลอกแขน แต่มีการเปิดคู่กรณีก่อน จะถือว่าทะลุ Protect ตัวเองเช่นเดิม (เสียค่าทะลุ Protect ตัวเอง)</div></div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PAGE 4 — ธุรกรรมแก๊ง
+             ============================================================ -->
+        <div class="page" id="page-gang-tx">
+            <h2 class="page-title">💰 ธุรกรรมแก๊ง</h2>
+            <p class="page-subtitle">Join / Leave / Create / ยุบ / ออกลอย / ลงชุด</p>
+
+            <div class="section-header">🔑 Join – Leave Gang</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">เข้า 1</div><div class="text-detail">บุคคลที่ประสงค์เข้าแก๊งจะต้องไปคราฟท์เหรียญเข้าแก๊งที่เรเบล</div></div>
+                <div class="table-row"><div class="id-number">เข้า 2</div><div class="text-detail">การเข้าแก๊งสามารถทำได้เลย โดยให้หัวหน้าแก๊งหรือรองหัวหน้าแก๊งเป็นผู้อนุมัติเข้าแก๊งและเชิญเข้าแก๊งเอง</div></div>
+                <div class="table-row"><div class="id-number">เข้า 3</div><div class="text-detail">ผู้ที่มาเข้าแก๊งจะต้องอยู่ในบริเวณที่ใกล้กับหัวหน้าแก๊ง หรือรองหัวหน้าแก๊ง เพื่อให้ทำการดึงเข้าแก๊งได้</div></div>
+                <div class="table-row"><div class="id-number">ออก 1</div><div class="text-detail">บุคคลที่ประสงค์ออกแก๊งจะต้องไปคราฟท์เหรียญออกแก๊งที่เรเบล</div></div>
+                <div class="table-row"><div class="id-number">ออก 2</div><div class="text-detail">หัวหน้าแก๊ง หรือรองหัวหน้าแก๊ง และผู้ที่ประสงค์ออกแก๊งจะต้องมาดำเนินการออกที่สภาเท่านั้น</div></div>
+                <div class="table-row"><div class="id-number">ออก 3</div><div class="text-detail">สภาจะเป็นผู้ทำเรื่องออกให้ โดยจะติดคูลดาวน์หลังออกแก๊ง ระยะเวลา x วัน</div></div>
+            </div>
+
+            <div class="section-header">🏗️ Create Gang</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">ก่อนขึ้นแก๊ง ชื่อในรายชื่อที่ส่งให้สภา ชื่อในบัตรประชาชน ชื่อในประเทศ ชื่อใน Discord จะต้องตรงกัน หากเช็คว่าไม่ตรงจะถูกปรับทันที<br><span class="warning-text">1.1 เมื่อขึ้นทะเบียนแก๊งแล้ว สภาจะให้เวลาใส่ Tag หน้าชื่อสมาชิก 1 รี หากฝ่าฝืนจะมีโทษปรับ — 💷 50,000 $ / คน</span></div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">การขึ้นทะเบียนแก๊ง Leader จะต้องคราฟเหรียญสร้างแก๊ง 1 ชิ้นที่เรเบล เพื่อยื่นให้สภาทำธุรกรรมขึ้นแก๊งให้ สมาชิกเริ่มต้น 10 คน สูงสุด 25 คน/แก๊ง</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">ห้ามนำชื่อแบรนด์ OC มาใช้ในการตั้งชื่อ รวมไปถึงการใช้คำที่ส่อไปทางเหยียดเพศ เชื้อชาติ หรือ 18+<div class="fine-text">💷 ค่าปรับ 3,000,000 $ / แก๊ง</div></div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">การเข้าแก๊งบุคคลที่จะเข้าจะต้องใช้เหรียญเข้าแก๊ง 1 เหรียญ และให้ Co-L หรือ Leader มานำเข้าแก๊ง</div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">การนำคนออกแก๊งต้องมีเหรียญออกแก๊ง 1 เหรียญ และให้ Co-L หรือ Leader มานำออกแก๊ง การออกแก๊งจะติดคูลดาวน์ 3 วัน (ออกจากหน่วยงาน 7 วัน)</div></div>
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">กรณีเปลี่ยนโลโก้/ชื่อ มีค่าธรรมเนียมเปลี่ยนชื่อแก๊ง 300,000/ic และติดคูลดาวน์ 30 วัน เปลี่ยนโลโก้ 300,000/ic และเปลี่ยนสีจะติดคูลดาวน์ 30 วัน</div></div>
+                <div class="table-row"><div class="id-number">7</div><div class="text-detail">กรณีแก๊งเปลี่ยนสีจะติดคูลดาวน์การเปลี่ยนสี 30 วัน ค่าธรรมเนียม 300,000/ic หากถูกชิงสีจะไม่ติดคูลดาวน์เปลี่ยนสี<div class="fine-text">💷 ค่าปรับ 300,000 $ / วัน</div></div></div>
+                <div class="table-row"><div class="id-number">8</div><div class="text-detail">กรณีต้องการเปลี่ยน Leader จะต้องนำ Leader คนใหม่มาแจ้งเปลี่ยนต่อหน้าสภาเท่านั้น ห้ามเปลี่ยนในเมนู F5 เองเด็ดขาด<div class="fine-text">💷 ค่าปรับ 500,000 $ / ครั้ง</div></div></div>
+                <div class="table-row"><div class="id-number">9</div><div class="text-detail">เมื่อขึ้นแก๊งจะไม่สามารถนำคนออกแก๊งได้เกิน 5 คน (รับสวัสดิการ 20 คน ห้ามนำคนออกเกิน 15 คน) จะต้องอยู่ให้ครบสัญญา 60 วัน<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / ครั้ง</div></div></div>
+                <div class="table-row"><div class="id-number">10</div><div class="text-detail">สี SAFEZONE ที่ไม่สามารถโดนไล่สีได้ : #46C1C0 (สีมิ้นท์) และ #FF775E (สีพีช)<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / ครั้ง</div></div></div>
+                <div class="table-row"><div class="id-number">11</div><div class="text-detail">ธุรกรรมเข้า-ออกแก๊ง สลับตำแหน่ง Leader และ Sub-Leader / เปลี่ยนสี-โลโก้-ชุด-ชื่อแก๊ง ห้ามทำเองทุกกรณี จะต้องทำผ่านสภาเท่านั้น<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / ครั้ง</div></div></div>
+                <div class="table-row"><div class="id-number">12</div><div class="text-detail">เมื่อขึ้นแก๊งจะต้องแจ้งลงชุดภายใน 7 วันนับตั้งแต่วันสร้างแก๊ง มีค่าลงชุดละ 300K<div class="fine-text">💷 ค่าปรับ 300,000 $ / ครั้ง</div></div></div>
+            </div>
+
+            <div class="section-header">🏚️ การยุบแก๊ง</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">การยุบแก๊ง Leader สามารถมาแจ้งยุบแก๊งได้เพียงคนเดียว และต้องนำสวัสดิการมาคืนในวันที่มาติดต่อเท่านั้น มีระยะเวลา 3 วันให้ติดต่อ<div class="warning-text">โทษ : ปลดไวริสชั่วคราว</div></div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">หากแก๊งนำคนออกจนเหลือน้อยกว่า 10 คน จะต้องนำคนเข้าให้มากกว่า 10 คนภายใน 3 วัน หากเกิน 3 วันจะถูกพักสถานะ และหากเกิน 3 วันอีก แก๊งจะถูกยุบทันที</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">กรณีแก๊งไม่มีความเคลื่อนไหวในประเทศเป็นระยะเวลาเกิน 14 วัน ทางสภาจะเรียกเพื่อสอบถาม หากไม่มีการตอบรับจะทำการยุบแก๊ง</div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">แก๊งจะยุบได้ก็ต่อเมื่อขึ้นมาแล้วมากกว่า 14 วัน<div class="fine-text">💷 ค่าปรับ 2,000,000 $ ถ้าจะยุบแก๊งภายใน 14 วันแรก</div></div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">หากแก๊งไหนมีมติจากสภาสั่งยุบ ต้องนำสวัสดิการมาคืนสภาทุกคน รวมถึงต้องรายงานตัวกับสภาภายใน 3 วัน</div></div>
+            </div>
+
+            <div class="section-header">🚪 การออกลอยแก๊ง</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">กรณีที่ Leader/Co-Leader ไม่สามารถติดต่อสมาชิกได้ จะสามารถทำธุรกรรมออกลอยบุคคลนั้นได้ ณ ที่ทำการสภา ค่าดำเนินการ 100,000/IC/คน</div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">สมาชิกที่มีสวัสดิการรถ สภาจะประกาศเรียกให้มาคืนรถ มีเวลา 3 วัน หากเกินเวลาจะมีโทษปลดไวริสและนำรถคืนแก๊งเดิม</div></div>
+            </div>
+
+            <div class="section-header">👗 การลงชุดแก๊ง</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">แก๊งขึ้นใหม่สามารถลงชุดได้ 3 ชุด 3 Accessory (กางเกง 1 เสื้อ 1 = นับเป็น 1 ชุด)</div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">แก๊งขึ้นใหม่สามารถลงชุดและ Accessory ฟรีครั้งแรก หากเกิน 7 วันจะเสียเงินลงเพิ่มชิ้นละ 300,000/ic และหากต้องการแก้ Texture ชิ้นละ 150,000/ic</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">การแจ้งลงชุดทุกประเภทจะต้องแจ้งลงผ่านสภาในเวลาทำการสภาเท่านั้น และแก๊งต้องกรอกฟอร์มแจ้งกรอกสัญลักษณ์แก๊งด้วย</div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">แก๊งจะต้องทำการเปิด Ticket หลังจากที่สภาส่งหลักฐานการแจ้งลงชุดให้ (ห้ามเปิด Ticket ลงชุดเองโดยไม่ผ่านสภา)</div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">ห้ามแก๊งลงชุดเกินนอกเหนือจาก Slot ที่สภากำหนด คือ ชุด 3 ชุด 3 Acc และ 3 Model Mod</div></div>
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">Model Mod ทุกรูปแบบจะต้องเสียค่าธรรมเนียม 600,000 โดยไม่มีการลงฟรีใดๆทั้งสิ้น</div></div>
+                <div class="table-row"><div class="id-number">7</div><div class="text-detail">ไม่อนุญาตให้แก๊งลงชุดที่เรืองแสงทุกประเภท<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / แก๊ง</div></div></div>
+            </div>
+
+            <div class="section-header">📁 รายละเอียดไฟล์ชุด</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">แยกโฟลเดอร์ให้ชัดเจน เป็น (male) ชื่อแก๊ง หรือ (Female) ชื่อแก๊ง และในโฟลเดอร์เปลี่ยนชื่อไฟล์ชุดให้ชัดเจน เช่น Hood, T-shirt</div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">ขั้นตอนการส่งโฟลเดอร์ให้แอดมินจะต้องแยกเป็น 2 โฟลเดอร์ อย่างเช่น หญิง, ชาย</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">ขนาดไฟล์ 1024×1024 Pixel</div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">รูปแบบไฟล์ในโฟลเดอร์จะต้องเป็น .ytd หรือ .png ก่อนส่งจะต้องบีบอัดไฟล์ให้เป็น .rar หรือ .zip</div></div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PAGE 5 — กฎครอบครัว
+             ============================================================ -->
+        <div class="page" id="page-family-rule">
+            <h2 class="page-title">👨‍👩‍👧 กฎครอบครัว</h2>
+            <p class="page-subtitle">กฎพื้นฐาน สิทธิ์ และ Protect ของครอบครัว</p>
+
+            <div class="section-header">📌 กฎพื้นฐานครอบครัว</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">ห้ามครอบครัวจับมือ หรือเป็นพันธมิตรกัน รวมไปถึงการเป็นท่อน้ำเลี้ยงซึ่งกันและกัน ให้รวมไปถึงการพันธมิตรกับแก๊งด้วยโดยเด็ดขาด<div class="fine-text">💷 ค่าปรับ 5,000,000 $ ทั้ง 2 ฝ่าย</div></div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">ห้ามครอบครัวซื้อขายหรือแลกเปลี่ยน สินค้า สวัสดิการจากสภา ให้กับครอบครัว หรือแก๊ง ทุกกรณี โดยอิงจากกฎในหมวดหมู่สินค้าและสวัสดิการจากสภา</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">ห้ามครอบครัวทำร้าย หรือใช้คำพูดที่ส่อไปทางเหยียดหยาม บัพ หรือ Toxic หรือโดยไร้เหตุผล ใส่ประชาชน<div class="warning-text">กระทำครั้งที่ 1 ตักเตือน / ครั้งที่ 2 ปรับ / ครั้งที่ 3 จะถูกพักสถานะครอบครัวชั่วคราว (ใช้ F12 หรือพยานในที่เกิดเหตุเท่านั้น Gopro/Overlay ไม่ใช้เป็นหลักฐานได้)</div></div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">ครอบครัวจะสามารถส่งหลักฐานการแจ้งผู้กระทำผิดกฎกิจกรรมภายใต้สภาได้ภายใน 24 ชั่วโมงเท่านั้น</div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">ห้ามครอบครัวนำบุคคลอื่นที่ไม่ได้อยู่ใน Slot ใส่ชุดครอบครัวเพื่อร่วมกิจกรรม หรือสตอรี่ทุกอย่าง และไม่อนุญาตให้บุคคลที่จะเข้าครอบครัวใส่สัญลักษณ์ครอบครัวก่อนทำการเข้าครอบครัว</div></div>
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">ครอบครัวจะต้องใส่ปลอกแขน Family ตลอดระยะเวลาที่เป็นครอบครัว หากมีการถอด ครอบครัวจะต้องรับผลตามหลังที่ตามมาด้วยตนเองเท่านั้น<div class="warning-text">* หากพบผู้เข้าร่วมกิจกรรมที่ไม่ได้ใส่ปลอกแขน จะต้องเตือนก่อน 1 ครั้งเท่านั้น (ผู้เตือนจะต้องมีหลักฐานตอนแจ้งด้วย)</div></div></div>
+            </div>
+
+            <div class="section-header">✅ สิทธิของครอบครัว</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">ครอบครัวมีสิทธิ์ในการซื้อ Painkiller ที่สภาเท่านั้น ผู้ที่ไม่ใช่ครอบครัวไม่มีสิทธิ์ถือหรือขายโดยเด็ดขาด<div class="fine-text">💷 ค่าปรับ 3,000,000 $</div></div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">หากพบเจอประชาชนหรือผู้ใดที่ใส่ชุดครอบครัวของตนเอง สามารถทำได้ทุกวิธีที่จะนำจับและมาส่งสภาได้ทันที<div class="fine-text">💷 ค่าปรับ 1,000,000 $</div></div></div>
+            </div>
+
+            <div class="section-header">🛡️ Protect</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">สถานะ Protect เป็นสัญลักษณ์ของครอบครัวที่ยังไม่พร้อมสำหรับการมีสตอรี่ โดยครอบครัวที่มีสถานะดังกล่าวจะได้รับความคุ้มครองจากสภา</div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">หลังจบการเล่นสตอรี่ระหว่างครอบครัวกับครอบครัว ทั้งสองฝ่ายจะได้รับ Protect เป็นระยะเวลา 3–5 วัน ขึ้นอยู่กับความเสียหายและการพิจารณาของสภา</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">สร้างครอบครัวใหม่ จะได้รับ Protect เป็นระยะเวลา 7 วัน (Protect สี รวมอยู่ใน Protect ขึ้นครอบครัวด้วย)</div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">ห้ามครอบครัวที่มี Protect ไปหาเรื่อง ทำการยั่วยุ ล้อหลอก ทั้งพฤติกรรม วาจา ท่าทาง หรือการทำร้ายร่างกายโดยเด็ดขาด<div class="fine-text">💷 ค่าปรับ 1,000,000 $ + ปลด Protect</div></div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">ห้ามครอบครัวอื่น ยั่วยุ ล้อหลอก พฤติกรรมที่ส่อไปทางซื้อเรื่อง ด้วยวาจา ท่าทาง หรือการทำร้ายร่างกายอีกฝ่ายที่มี Protect โดยเด็ดขาด<div class="fine-text">💷 ค่าปรับ 2,500,000 $</div></div></div>
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">ครอบครัวที่ต้องการปลดสถานะ Protect ของตนเอง จะไม่เสียค่าธรรมเนียม</div></div>
+                <div class="table-row"><div class="id-number">7</div><div class="text-detail">สถานะ Protect ไม่มีผลกับกิจกรรมภายใต้สภาทุกรูปแบบ หากต้องการมีสตอรี่ผ่านกิจกรรมภายใต้สภา ครอบครัวสามารถปลด Protect ได้<div class="fine-text">💷 ค่าปรับ 2,500,000 $ + ปลด Protect</div></div></div>
+                <div class="table-row"><div class="id-number">8</div><div class="text-detail">ครอบครัวที่มี PT แต่ไม่ใส่ปลอกแขน แต่มีการเปิดคู่กรณีก่อน จะถือว่าทะลุ PT ตัวเองเช่นเดิม<div class="fine-text">💷 ค่าปรับ 2,000,000 $ / ครอบครัว</div></div></div>
+                <div class="table-row"><div class="id-number">9</div><div class="text-detail">ครอบครัวที่มี PT แต่ไม่ใส่ปลอกแขน ถือว่าไม่รักษาผลประโยชน์ของตัวเอง หากคู่กรณีแทงทะลุ PT มา นับว่าคู่กรณีไม่ผิด<div class="fine-text">💷 ค่าปรับ 2,000,000 $ / ครอบครัว</div></div></div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             PAGE 6 — ธุรกรรมครอบครัว
+             ============================================================ -->
+        <div class="page" id="page-family-tx">
+            <h2 class="page-title">💳 ธุรกรรมครอบครัว</h2>
+            <p class="page-subtitle">Join / Leave / Create / ยุบ / ออกลอย / ลงชุด</p>
+
+            <div class="section-header">🔑 Join – Leave Family</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">เข้า 1</div><div class="text-detail">บุคคลที่ประสงค์เข้าครอบครัวจะต้องไปคราฟท์เหรียญเข้าครอบครัวที่เรเบล</div></div>
+                <div class="table-row"><div class="id-number">เข้า 2</div><div class="text-detail">การเข้าครอบครัวสามารถทำได้เลย โดยให้หัวหน้าครอบครัวหรือรองหัวหน้าครอบครัวเป็นผู้อนุมัติเข้าครอบครัวและเชิญเข้าครอบครัวเอง</div></div>
+                <div class="table-row"><div class="id-number">เข้า 3</div><div class="text-detail">ผู้ที่มาเข้าครอบครัวจะต้องอยู่ในบริเวณที่ใกล้กับหัวหน้าครอบครัว หรือรองหัวหน้าครอบครัว เพื่อให้ทำการดึงเข้าครอบครัวได้</div></div>
+                <div class="table-row"><div class="id-number">ออก 1</div><div class="text-detail">บุคคลที่ประสงค์ออกครอบครัวจะต้องไปคราฟท์เหรียญออกครอบครัวที่เรเบล</div></div>
+                <div class="table-row"><div class="id-number">ออก 2</div><div class="text-detail">หัวหน้าครอบครัว หรือรองหัวหน้าครอบครัว และผู้ที่ประสงค์ออกครอบครัวจะต้องมาดำเนินการออกที่สภาเท่านั้น</div></div>
+                <div class="table-row"><div class="id-number">ออก 3</div><div class="text-detail">สภาจะเป็นผู้ทำเรื่องออกให้ โดยจะติดคูลดาวน์หลังออกครอบครัว ระยะเวลา x วัน</div></div>
+            </div>
+
+            <div class="section-header">🏗️ Create Family</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">ก่อนขึ้นครอบครัว ชื่อในรายชื่อที่ส่งให้สภา ชื่อในบัตรประชาชน ชื่อในประเทศ ชื่อใน Discord จะต้องตรงกัน Tag ครอบครัวต้องใช้ F- นำหน้า เช่น [F-XX]<div class="fine-text">💷 ค่าปรับ 500,000 $ / คน</div></div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">การขึ้นทะเบียนครอบครัว Leader (หัวครอบครัว) จะต้องคราฟเหรียญสร้างครอบครัว 1 ชิ้นที่เรเบล สมาชิกเริ่มต้น 5 คน สูงสุด 10 คน/Family</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">ห้ามนำชื่อแบรนด์ OC มาใช้ในการตั้งชื่อ รวมไปถึงการใช้คำที่ส่อไปทางเหยียดเพศ เชื้อชาติ หรือ 18+</div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">การเข้าครอบครัว บุคคลที่จะเข้าจะต้องใช้เหรียญเข้าครอบครัว 1 เหรียญ และให้ Co-Leader หรือ Leader มานำเข้า</div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">การนำคนออกครอบครัว ต้องมีเหรียญออกครอบครัว 1 เหรียญ และให้ Leader หรือ Co-Leader มานำออก การออกครอบครัวจะติดคูลดาวน์ 3 วัน</div></div>
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">กรณีเปลี่ยนโลโก้/ชื่อ มีค่าธรรมเนียมเปลี่ยนชื่อครอบครัว 250,000/ic และติดคูลดาวน์ 30 วัน เปลี่ยนโลโก้ 150,000/ic</div></div>
+                <div class="table-row"><div class="id-number">7</div><div class="text-detail">กรณีครอบครัวเปลี่ยนสีจะติดคูลดาวน์การเปลี่ยนสี 30 วัน และค่าธรรมเนียม 300,000/ic</div></div>
+                <div class="table-row"><div class="id-number">8</div><div class="text-detail">กรณีต้องการเปลี่ยน Head จะต้องนำ Head คนใหม่มาแจ้งเปลี่ยนต่อหน้าสภาเท่านั้น ห้ามเปลี่ยนในเมนู F5 เองเด็ดขาด<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / ครั้ง</div></div></div>
+                <div class="table-row"><div class="id-number">9</div><div class="text-detail">เมื่อขึ้นครอบครัวจะต้องแจ้งลงชุดภายใน 7 วันนับตั้งแต่วันสร้างครอบครัว<div class="fine-text">💷 ค่าปรับ 500,000 $ / ครั้ง</div></div></div>
+                <div class="table-row"><div class="id-number">10</div><div class="text-detail">ธุรกรรมเข้า-ออกครอบครัว สลับตำแหน่ง Head และ Sub-Head / เปลี่ยนสี-โลโก้-ชุด-ชื่อครอบครัว ห้ามทำเองทุกกรณี จะต้องทำผ่านสภาเท่านั้น</div></div>
+            </div>
+
+            <div class="section-header">🏚️ การยุบครอบครัว</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">การยุบครอบครัว Leader สามารถมาแจ้งยุบได้เพียงคนเดียว ต้องนำสวัสดิการมาคืนในวันที่มาติดต่อ มีระยะเวลา 3 วันให้ติดต่อ<div class="warning-text">บทลงโทษ : โทษปลดไวริสชั่วคราว</div></div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">หากครอบครัวนำคนออกจนเหลือน้อยกว่า 5 คน จะต้องนำคนเข้าให้มากกว่า 7 คนภายใน 3 วัน หากเกิน 3 วันจะถูกพักสถานะ และหากเกิน 3 วันอีก ครอบครัวจะถูกยุบทันที</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">กรณีครอบครัวไม่มีความเคลื่อนไหวในประเทศเป็นระยะเวลาเกิน 14 วัน ทางสภาจะเรียกเพื่อสอบถาม หากไม่มีการตอบรับจะทำการยุบครอบครัว</div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">ครอบครัวจะยุบได้ก็ต่อเมื่อขึ้นมาแล้ว 15 วัน (ครอบครัวที่รับสวัสดิการ ติดสัญญาห้ามยุบ 30 วัน / มิสติกกรีน/อาวุธ ติดสัญญา 60 วัน)<div class="fine-text">💷 ค่าปรับ 2,000,000 $ / ครอบครัว</div></div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">หากครอบครัวไหนมีมติจากสภาสั่งยุบ ต้องนำสวัสดิการมาคืนสภาทุกคน รวมถึงต้องรายงานตัวกับสภาภายใน 3 วัน</div></div>
+            </div>
+
+            <div class="section-header">🚪 การออกลอยครอบครัว</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">กรณีที่ Leader/Co-Leader ไม่สามารถติดต่อสมาชิกครอบครัวได้ จะสามารถทำธุรกรรมออกลอยบุคคลนั้นได้ ณ ที่ทำการสภา ค่าดำเนินการ 100,000/IC</div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">สมาชิกที่มีสวัสดิการรถ สภาจะประกาศเรียกให้มาคืนรถ มีเวลา 3 วัน หากเกินเวลาจะมีโทษปลดไวริสและนำรถคืนครอบครัวเดิม</div></div>
+            </div>
+
+            <div class="section-header">👗 การลงชุดครอบครัว</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">ครอบครัวขึ้นใหม่สามารถลงชุดได้ 3 ชุด 2 ACC (กางเกง 1 เสื้อ 1 = นับเป็น 1 ชุด) ชุดที่ลงได้ Hood, T-SHIRT, Polo, เกราะ และ Accessory อื่นๆ อีก 1 ชิ้น</div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">ครอบครัวขึ้นใหม่สามารถลงชุดฟรีครั้งแรก หากเกิน 7 วันจะเสียเงินลงเพิ่มชิ้นละ 300,000/ic และหากต้องการแก้ Texture ชิ้นละ 150,000/ic</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">การแจ้งลงชุดทุกประเภทจะต้องแจ้งลงผ่านสภาในเวลาทำการสภาเท่านั้น และครอบครัวต้องกรอกฟอร์มแจ้งกรอกสัญลักษณ์ครอบครัวด้วย</div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">ครอบครัวจะต้องทำการเปิด Ticket หลังจากที่สภาส่งหลักฐานการแจ้งลงชุดให้ (ห้ามครอบครัวเปิด Ticket ลงชุดเองโดยไม่ผ่านสภา)<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / ครอบครัว</div></div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">ห้ามครอบครัวลงชุดเกินนอกเหนือจาก Slot ที่สภากำหนด คือ 3 ชุด 2 Accessory<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / ครอบครัว</div></div></div>
+                <div class="table-row"><div class="id-number">6</div><div class="text-detail">Model Mod ทุกรูปแบบยังไม่เปิดให้ลง รอประกาศอีกครั้ง<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / ครอบครัว</div></div></div>
+                <div class="table-row"><div class="id-number">7</div><div class="text-detail">ไม่อนุญาตให้ครอบครัวลงชุดที่เรืองแสงทุกประเภท<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / ครอบครัว</div></div></div>
+            </div>
+
+            <div class="section-header">📁 รายละเอียดไฟล์ชุด</div>
+            <div class="custom-table">
+                <div class="table-head"><div class="col-num">ข้อ</div><div class="col-detail">รายการ</div></div>
+                <div class="table-row"><div class="id-number">1</div><div class="text-detail">แยกโฟลเดอร์ให้ชัดเจน เป็น (male) ชื่อครอบครัว หรือ (Female) ชื่อครอบครัว และในโฟลเดอร์เปลี่ยนชื่อไฟล์ชุดให้ชัดเจน เช่น Hood, T-shirt</div></div>
+                <div class="table-row"><div class="id-number">2</div><div class="text-detail">ขั้นตอนการส่งโฟลเดอร์ให้แอดมินจะต้องแยกเป็น 2 โฟลเดอร์ อย่างเช่น หญิง, ชาย</div></div>
+                <div class="table-row"><div class="id-number">3</div><div class="text-detail">ขนาดไฟล์ 1024×1024 Pixel</div></div>
+                <div class="table-row"><div class="id-number">4</div><div class="text-detail">รูปแบบไฟล์ในโฟลเดอร์จะต้องเป็น .ytd หรือ .png ก่อนส่งจะต้องบีบอัดไฟล์ให้เป็น .rar หรือ .zip</div></div>
+                <div class="table-row"><div class="id-number">5</div><div class="text-detail">ไม่อนุญาตให้ครอบครัวลงชุดที่เรืองแสงทุกประเภท<div class="fine-text">💷 ค่าปรับ 1,000,000 $ / ครอบครัว</div></div></div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+function showPage(pageId, clickedItem) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // Show selected
+    document.getElementById('page-' + pageId).classList.add('active');
+    // Update sidebar active state
+    document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+    clickedItem.classList.add('active');
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
 </body>
 </html>
